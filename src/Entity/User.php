@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,6 +54,16 @@ class User
      * @ORM\Column(type="integer")
      */
     private $promo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Internship::class, mappedBy="author")
+     */
+    private $internships;
+
+    public function __construct()
+    {
+        $this->internships = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,6 +150,36 @@ class User
     public function setPromo(int $promo): self
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Internship[]
+     */
+    public function getInternships(): Collection
+    {
+        return $this->internships;
+    }
+
+    public function addInternship(Internship $internship): self
+    {
+        if (!$this->internships->contains($internship)) {
+            $this->internships[] = $internship;
+            $internship->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternship(Internship $internship): self
+    {
+        if ($this->internships->removeElement($internship)) {
+            // set the owning side to null (unless already changed)
+            if ($internship->getAuthor() === $this) {
+                $internship->setAuthor(null);
+            }
+        }
 
         return $this;
     }
