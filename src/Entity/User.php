@@ -7,9 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @UniqueEntity(
+ *      "username",
+ *      message="Ce pseudo est déjà utilisé"
+ * )
+ * @UniqueEntity(
+ *      "email",
+ *      message="Un compte existe déjà pour cette adresse email"
+ * )
  */
 class User
 {
@@ -27,6 +38,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email
      */
     private $email;
 
