@@ -13,13 +13,13 @@ class CategoryFixtures extends Fixture
     {
         $sciences = new Category();
         $sciences->setName("Sciences");
-        $manager->persist($scienses);
+        $manager->persist($sciences);
         
-        $sub_sciences = new Category();
-        $sub_sciences->setParent($sciences);
         $sub_names = array("Mathématiques", "Mécanique", "Chimie", "Physique", "Biologie");
         foreach ($sub_names as $sub_name) {
-            $sub_sciences->setName($sub_name);
+            $sub_sciences = new Category();
+            $sub_sciences->setParent($sciences)
+                         ->setName($sub_name);
             $manager->persist($sub_sciences);
         }
 
