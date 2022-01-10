@@ -18,10 +18,12 @@ class CategoryFixtures extends Fixture
         $sub_names = array("Mathématiques", "Mécanique", "Chimie", "Physique", "Biologie");
         foreach ($sub_names as $sub_name) {
             $sub_sciences = new Category();
-            $sub_sciences->setParent($sciences)
-                         ->setName($sub_name);
+            $sub_sciences->setName($sub_name)
+                ->setParent($sciences);
+
             $manager->persist($sub_sciences);
         }
+
 
         $economy = new Category();
         $economy->setName("Economie");
